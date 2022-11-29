@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,14 @@ public class SensorsController {
 		this.sensorValidator = sensorValidator;
 		this.modelMapper = modelMapper;
 	}
+	
+	@GetMapping
+	public List<SensorDTO> findAll() {
+		return sensorsService.findAll()
+							 .stream()
+							 .map(this::convertToSensorDTO)
+							 .toList();
+	}
 
 	@PostMapping("/registration")
 	public ResponseEntity<HttpStatus> registrate(@RequestBody @Valid SensorDTO sensorDTO, BindingResult bindingResult) {
@@ -46,7 +55,7 @@ public class SensorsController {
 			
 			List<FieldError> errors = bindingResult.getFieldErrors();
 			for (FieldError error : errors) {
-				errorMessage.append(error.getField() + " - " + error.getDefaultMessage() + " ");
+				errorMessage.append(error.getField() + " - " + error.getDefaultMessage() + ". ");
 			}
 			
 			throw new SensorNotRegistrateException(errorMessage.toString());
@@ -66,5 +75,9 @@ public class SensorsController {
 	
 	private Sensor convertToSensor(SensorDTO sensorDTO) {
 		return modelMapper.map(sensorDTO, Sensor.class);
+	}
+	
+	private SensorDTO convertToSensorDTO(Sensor sensor) {
+		return modelMapper.map(sensor, SensorDTO.class);
 	}
 }

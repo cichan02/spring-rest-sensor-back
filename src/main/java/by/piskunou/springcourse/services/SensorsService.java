@@ -1,5 +1,6 @@
 package by.piskunou.springcourse.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,11 @@ public class SensorsService {
 	}
 	
 	public Optional<Sensor> findByName(String name) {
-		return sensorsRepository.findByName(name);
+		return sensorsRepository.findById(name);
+	}
+	
+	public List<Sensor> findAll() {
+		return sensorsRepository.findAll();
 	}
 	
 	@Transactional

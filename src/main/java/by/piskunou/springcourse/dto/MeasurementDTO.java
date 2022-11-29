@@ -9,12 +9,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MeasurementDTO {
-	@Min(value = -100, message = "Value should be greater than -100")
-	@Max(value = 100, message = "Value should be less than 100")
+	@NotNull
+	@Min(value = -100, message = "Value should be higher or equal than -100")
+	@Max(value = 100, message = "Value should be lower or equal than 100")
 	private double value;
 	
+	@NotNull
 	private boolean raining;
 	
 	@NotNull
-	private SensorDTO sensorDTO;
+	private SensorDTO sensor;
 }

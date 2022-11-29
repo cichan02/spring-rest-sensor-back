@@ -1,33 +1,37 @@
 package by.piskunou.springcourse.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import by.piskunou.springcourse.models.Measurement;
 import by.piskunou.springcourse.models.Sensor;
 import by.piskunou.springcourse.services.SensorsService;
 
 @Component
-public class SensorValidator implements Validator {
+public class MeasurementValidator implements Validator {
 	private final SensorsService sensorsService;
 
-	@Autowired
-	public SensorValidator(SensorsService sensorsService) {
+	public MeasurementValidator(SensorsService sensorsService) {
 		this.sensorsService = sensorsService;
 	}
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Sensor.class.equals(clazz);
+		return clazz.equals(Measurement.class);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		Sensor sensor = (Sensor) target;
+		Sensor sensor = ((Measurement) target).getSensor();
 		
-		if(sensorsService.findByName(sensor.getName()).isPresent()) {
-			errors.rejectValue("name", "500", "This sensor's name has already taken");
+		if(sensor.getName() == null) {
+			errors.rejectValue("sensor", "500", "The given sensor's name must not be null");
+			return;
+		}
+		
+		if(sensorsService.findByName(sensor.getName()).isEmpty()) {
+			errors.rejectValue("sensor", "404", "Can't find a sensor");
 		}
 	}
 }

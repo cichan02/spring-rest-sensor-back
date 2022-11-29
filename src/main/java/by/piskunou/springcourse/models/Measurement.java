@@ -28,18 +28,20 @@ public class Measurement {
 	private int id;
 	
 	@Column(name = "value")
+	@NotNull
 	@Min(value = -100, message = "Value should be greater than -100")
 	@Max(value = 100, message = "Value should be less than 100")
 	private double value;
 	
 	@Column(name = "raining")
+	@NotNull
 	private boolean raining;
 	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "sensor_id", referencedColumnName = "id")
+	@JoinColumn(name = "sensor_name", referencedColumnName = "name")
 	@NotNull
 	private Sensor sensor;
 }
