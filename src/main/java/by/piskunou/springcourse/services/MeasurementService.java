@@ -55,7 +55,7 @@ public class MeasurementService {
 		
 	@Transactional
 	public void add(Measurement measurement) {
-		measurement.setCreatedAt(LocalDate.of(2022, 12, 2));
+		measurement.setCreatedAt(LocalDate.now());
 		
 		measurementsRepository.save(measurement);
 	}
