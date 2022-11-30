@@ -48,6 +48,11 @@ public class SensorsController {
 
 	@PostMapping("/registration")
 	public ResponseEntity<HttpStatus> registrate(@RequestBody @Valid SensorDTO sensorDTO, BindingResult bindingResult) {
+		if(bindingResult.hasFieldErrors("name")) {
+			FieldError error = bindingResult.getFieldError("name");
+			throw new SensorNotRegistrateException(error.getField() + " - " + error.getDefaultMessage() + ". "); 
+		}
+		
 		Sensor sensor = convertToSensor(sensorDTO);
 		sensorValidator.validate(sensor, bindingResult);
 		if(bindingResult.hasErrors()) {

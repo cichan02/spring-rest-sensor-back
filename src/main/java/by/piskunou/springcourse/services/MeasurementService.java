@@ -1,6 +1,7 @@
 package by.piskunou.springcourse.services;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,38 @@ public class MeasurementService {
 		return measurementsRepository.findAll();
 	}
 	
-	public long rainyDaysCount() {
-		return measurementsRepository.findAll()
-									 .stream()
-									 .filter(Measurement::isRaining)
-									 .count();
+	public long rainyDaysCount() {	
+		long rainyDays = 0;
+		List<Measurement> list = findAll();
+		Iterator<Measurement> iterator = list.iterator();
+		Measurement measurement = null;
+		LocalDate currentDate = null;
+		if(iterator.hasNext()) {
+			measurement = iterator.next();
+			currentDate = measurement.getCreatedAt();
+		}
+		while(iterator.hasNext()) {
+			long sum = measurement.isRaining() ? -1 : 1;
+			while(iterator.hasNext()) {
+				measurement = iterator.next();
+				LocalDate otherDate = measurement.getCreatedAt();
+				if(currentDate.equals(otherDate)) {
+					sum = measurement.isRaining() ? --sum : ++sum;
+				} else {
+					currentDate = otherDate;
+					break;
+				}
+			}
+			if(sum < 0) {
+				rainyDays++;
+			}
+		}
+		return rainyDays;
 	}
 		
 	@Transactional
 	public void add(Measurement measurement) {
-		measurement.setCreatedAt(LocalDateTime.now());
+		measurement.setCreatedAt(LocalDate.of(2022, 12, 2));
 		
 		measurementsRepository.save(measurement);
 	}

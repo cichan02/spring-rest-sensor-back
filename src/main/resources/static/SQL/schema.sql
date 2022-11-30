@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS Measurement(
 	sensor_name varchar REFERENCES Sensor(name) ON DELETE CASCADE NOT NULL,
 	"value" numeric NOT NULL CHECK(value >= -100 AND value <= 100),
 	raining boolean NOT NULL,
-	created_at timestamp
+	created_at DATE
 );

@@ -1,6 +1,6 @@
 package by.piskunou.springcourse.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +38,7 @@ public class Measurement {
 	private boolean raining;
 	
 	@Column(name = "created_at")
-	private LocalDateTime createdAt;
+	private LocalDate createdAt;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sensor_name", referencedColumnName = "name")
