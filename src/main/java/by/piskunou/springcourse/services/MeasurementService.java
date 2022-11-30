@@ -27,8 +27,7 @@ public class MeasurementService {
 	
 	public long rainyDaysCount() {	
 		long rainyDays = 0;
-		List<Measurement> list = findAll();
-		Iterator<Measurement> iterator = list.iterator();
+		Iterator<Measurement> iterator = findAll().iterator();
 		Measurement measurement = null;
 		LocalDate currentDate = null;
 		if(iterator.hasNext()) {
