@@ -73,7 +73,7 @@ public class MeasurementsController {
 		
 		measurementService.add(convertToMeasurement(measurementDTO));
 		
-		return ResponseEntity.ok(HttpStatus.OK);
+		return ResponseEntity.ok(HttpStatus.CREATED);
 	}
 	
 	@ExceptionHandler
