@@ -10,9 +10,9 @@ public class SpringRestSensorBackApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringRestSensorBackApplication.class, args);
 	}
-	
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+
+    @Bean
+    ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
